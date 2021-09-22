@@ -11,13 +11,11 @@ A todo list application api
 - Jest
 - Graphql
 - Apollo-server-express
-
 ## Backend Server
-
 To run this application
 
 - Run npm install
-- Provide the required environment variables in .env.sample or use default
+- Provide the required environment variables in .env.sample
 - Run npm start
 
 ### Thought Process
