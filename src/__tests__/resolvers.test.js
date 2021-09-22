@@ -4,29 +4,85 @@ const { query, mutate } = testClient;
 
 describe("TESTING QUESTIONNAIRE RESOLVERS", () => {
   let url;
+   const CREATE_QUESTIONNAIRE = gql`
+     mutation Mutation($createQuestionnaireData: QuestionnaireInput) {
+       createQuestionnaire(data: $createQuestionnaireData) {
+         success
+         message
+         data {
+           id
+           title
+           url
+           link
+           questions {
+             question
+             answerType
+           }
+           createdAt
+           updatedAt
+         }
+       }
+     }
+   `;
 
-  it("Create Questionnaire", async () => {
-    const CREATE_QUESTIONNAIRE = gql`
-      mutation Mutation($createQuestionnaireData: QuestionnaireInput) {
-        createQuestionnaire(data: $createQuestionnaireData) {
+   const GET_QUESTIONNAIRE = gql`
+     query Query($id: Int!) {
+       getQuestionnaireById(id: $id) {
+         success
+         message
+         data {
+           id
+           url
+           questions {
+             question
+             answerType
+           }
+           link
+           title
+         }
+       }
+     }
+   `;
+
+   const GET_QUESTIONNAIRE_URL = gql`
+     query Query($url: String!) {
+       getQuestionnaireByUrl(url: $url) {
+         success
+         message
+         data {
+           id
+           url
+           questions {
+             question
+             answerType
+           }
+           link
+           title
+         }
+       }
+     }
+   `;
+
+    const MANAGE_QUESTIONNAIRE = gql`
+      mutation Mutation($manageQuestionnaireData: ManageQuestionnaireInput) {
+        manageQuestionnaire(data: $manageQuestionnaireData) {
           success
           message
           data {
             id
-            title
             url
-            link
             questions {
               question
               answerType
             }
-            createdAt
-            updatedAt
+            link
+            title
           }
         }
       }
     `;
-
+    
+  it("Create Questionnaire", async () => {
     const createQuestionnaireData = {
       title: "Do you know graphql",
       questions: [
@@ -53,25 +109,6 @@ describe("TESTING QUESTIONNAIRE RESOLVERS", () => {
   });
 
   it("Get Questionnaire by Id", async () => {
-    const GET_QUESTIONNAIRE = gql`
-      query Query($id: Int!) {
-        getQuestionnaireById(id: $id) {
-          success
-          message
-          data {
-            id
-            url
-            questions {
-              question
-              answerType
-            }
-            link
-            title
-          }
-        }
-      }
-    `;
-
     const { data } = await query({
       mutation: GET_QUESTIONNAIRE,
       variables: { id: 1 },
@@ -83,25 +120,6 @@ describe("TESTING QUESTIONNAIRE RESOLVERS", () => {
   });
 
   it("Get Questionnaire by url", async () => {
-    const GET_QUESTIONNAIRE_URL = gql`
-      query Query($url: String!) {
-        getQuestionnaireByUrl(url: $url) {
-          success
-          message
-          data {
-            id
-            url
-            questions {
-              question
-              answerType
-            }
-            link
-            title
-          }
-        }
-      }
-    `;
-
     const { data } = await query({
       mutation: GET_QUESTIONNAIRE_URL,
       variables: { url },
@@ -113,25 +131,6 @@ describe("TESTING QUESTIONNAIRE RESOLVERS", () => {
   });
 
   it("Update Questionnaire", async () => {
-    const UPDATE_QUESTIONNAIRE = gql`
-      mutation Mutation($manageQuestionnaireData: ManageQuestionnaireInput) {
-        manageQuestionnaire(data: $manageQuestionnaireData) {
-          success
-          message
-          data {
-            id
-            url
-            questions {
-              question
-              answerType
-            }
-            link
-            title
-          }
-        }
-      }
-    `;
-
     const manageQuestionnaireData = {
       id: 1,
       title: "Do you know graphql",
@@ -152,7 +151,7 @@ describe("TESTING QUESTIONNAIRE RESOLVERS", () => {
     };
 
     const { data } = await mutate({
-      mutation: UPDATE_QUESTIONNAIRE,
+      mutation: MANAGE_QUESTIONNAIRE,
       variables: { manageQuestionnaireData },
     });
 
@@ -162,25 +161,6 @@ describe("TESTING QUESTIONNAIRE RESOLVERS", () => {
   });
 
   it("Delete Questionnaire", async () => {
-    const DELETE_QUESTIONNAIRE = gql`
-      mutation Mutation($manageQuestionnaireData: ManageQuestionnaireInput) {
-        manageQuestionnaire(data: $manageQuestionnaireData) {
-          success
-          message
-          data {
-            id
-            url
-            questions {
-              question
-              answerType
-            }
-            link
-            title
-          }
-        }
-      }
-    `;
-
     const manageQuestionnaireData = {
       id: 1,
       title: "Do you know graphql",
@@ -193,7 +173,7 @@ describe("TESTING QUESTIONNAIRE RESOLVERS", () => {
     };
 
     const { data } = await mutate({
-      mutation: DELETE_QUESTIONNAIRE,
+      mutation: MANAGE_QUESTIONNAIRE,
       variables: { manageQuestionnaireData },
     });
 
