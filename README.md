@@ -11,7 +11,7 @@ A todo list application api
 - Jest
 - Graphql
 - Apollo-server-express
-## Backend Server
+## Start Server
 To run this application
 
 - Run npm install
