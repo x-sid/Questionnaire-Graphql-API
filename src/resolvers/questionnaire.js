@@ -75,6 +75,7 @@ module.exports = {
       }
     },
 
+    //delete,update and re-order of questionnaire
     manageQuestionnaire: async (parent, args, { db }) => {
       try {
         const { data } = args;
